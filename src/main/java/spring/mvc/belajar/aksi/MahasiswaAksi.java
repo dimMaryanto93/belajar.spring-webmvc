@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import spring.mvc.belajar.dao.MahasiswaDao;
+import spring.mvc.belajar.domain.Mahasiswa;
 
 @Controller
 @RequestMapping("/mahasiswa")
@@ -19,7 +20,7 @@ public class MahasiswaAksi {
 	@RequestMapping("/daftar")
 	public ModelMap daftarMahasiswa() {
 		ModelMap map = new ModelMap();
-		map.addAttribute("daftarMahasiswa", (List) dao.findAll());
+		map.addAttribute("daftarMahasiswa", (List<Mahasiswa>) dao.findAll());
 		return map;
 	}
 
