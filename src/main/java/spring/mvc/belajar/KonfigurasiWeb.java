@@ -27,7 +27,7 @@ public class KonfigurasiWeb extends WebMvcConfigurerAdapter {
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		// TODO Auto-generated method stub
 		super.configureViewResolvers(registry);
-		registry.jsp();
+		registry.jsp("/WEB-INF/pages/", ".jsp");
 	}
 
 	@Bean
