@@ -1,4 +1,4 @@
-# Belajar Spring Framework - MVC &amp; Data JPA
+# Belajar Spring Framework - MVC & Data JPA
 
 Ini adalah contoh aplikasi menggunakan Spring MVC dan Spring Data JPA dengan implementasi ORM Hiberhate dan menggunakan PostgreSQL sebagai Databasenya.
 
@@ -72,3 +72,128 @@ setelah itu coba browsernya dibuka terus masukan alamat berikut:
 ```
 http://localhost:8080/belajar.spring-mvc.java-config/
 ```
+
+## Spring WebMVC
+
+Setelah konfigurasi maven project webnya udah berhasil dijalankan langkah selanjutnya membuat konfigurasi Spring MVC, syaratnya untuk membuat konfigurasi Spring MVC dengan JSP adalah kita tambahkan dulu dependencynya ```spring-context```, ```spring-webmvc``` dan ```spring-test``` (optional) seperti berikut:
+
+```xml
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-context</artifactId>
+  <version>4.3.2.RELEASE</version>
+</dependency>
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-webmvc</artifactId>
+  <version>4.3.2.RELEASE</version>
+</dependency>
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-test</artifactId>
+  <version>4.3.2.RELEASE</version>
+</dependency>
+```
+
+Sekarang kita baru bisa melakukan konfigurasi si ```spring-webmvc```nya, sebenarnya 2 cara yaitu dengan menggunakan servlet descriptor (xml) dan juga Java Konfig untuk membuat ```spring-webmvc```, tapi kali ini saya mau pake Java Config karena jaman sekarang semuanya udah pake Java Config seperti yang diusulkan oleh ```spring-boot``` semuanya pake Java Config. ok Sekarang kita tinggal bikin konfigurasi webnya:
+
+buat kelas dengan nama ```KonfigurasiWeb.java``` dalam package ```com.hotmail.dimmaryanto.software``` seperti berikut:
+
+```java
+package spring.mvc.belajar;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+@Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = "spring.mvc.belajar")
+public class KonfigurasiWeb extends WebMvcConfigurerAdapter {
+
+	@Override
+	public void configureViewResolvers(ViewResolverRegistry registry) {
+		super.configureViewResolvers(registry);
+    // untuk menghandle file jsp ke spring mvc
+		registry.jsp("/WEB-INF/pages/", ".jsp");
+	}
+
+}
+```
+
+buat kelas dengan nama ```AnnotationWebInitializer.java``` dalam package ```com.hotmail.dimmaryanto.software.konfigurasi``` isinya seperti berikut:
+
+```java
+package spring.mvc.belajar.konfigurasi;
+
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import spring.mvc.belajar.KonfigurasiWeb;
+
+public class AnnotationWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+	@Override
+	protected Class<?>[] getRootConfigClasses() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+    // daftarkan spring konfigurasi web ke servlet config
+    // sama dengan file web.xml (java web descriptor) mapping-url dispatcher-servlet.xml
+		return new Class[] { KonfigurasiWeb.class };
+	}
+
+	@Override
+	protected String[] getServletMappings() {
+		return new String[] { "/" };
+	}
+
+}
+```
+
+setelah itu coba buat file ```halo.jsp``` dalam folder ```src/main/webapp/WEB-INF/pages/``` seperti berikut:
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" isELIgnored="false"%>
+<!-- isELignored = "false" // untuk mengaktifkan JSP Expresion karena secara default maven meng-disable EL -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+  </head>
+  <body>
+  	${message}
+  </body>
+</html>
+```
+
+Kemudian buat controllernya di dalam package ```com.hotmail.dimmaryanto.software.aksi``` dengan nama class ```HaloController``` seperti berikut:
+
+```java
+package spring.mvc.belajar.aksi;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class HaloController {
+
+	@RequestMapping("/halo")
+	public ModelMap halo() {
+		ModelMap map = new ModelMap();
+		map.addAttribute("message", "Halo, nama saya dimas maryanto");
+		return map;
+	}
+}
+```
+
+Setelah itu coba anda running dengan maven tomcat7. dan coba akses ```http://localhost:8080/belajar.spring-mvc.java-config/halo```
+
+Maka browser akan manghasilkan output yaitu ```Halo, nama saya dimas maryanto```
