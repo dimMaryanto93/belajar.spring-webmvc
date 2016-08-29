@@ -97,7 +97,7 @@ Setelah konfigurasi maven project webnya udah berhasil dijalankan langkah selanj
 
 Sekarang kita baru bisa melakukan konfigurasi si ```spring-webmvc```nya, sebenarnya 2 cara yaitu dengan menggunakan servlet descriptor (xml) dan juga Java Konfig untuk membuat ```spring-webmvc```, tapi kali ini saya mau pake Java Config karena jaman sekarang semuanya udah pake Java Config seperti yang diusulkan oleh ```spring-boot``` semuanya pake Java Config. ok Sekarang kita tinggal bikin konfigurasi webnya:
 
-buat kelas dengan nama ```KonfigurasiWeb.java``` dalam package ```com.hotmail.dimmaryanto.software``` seperti berikut:
+buat kelas dengan nama ```KonfigurasiWeb.java``` dalam package ```spring.mvc.belajar``` seperti berikut:
 
 ```java
 package spring.mvc.belajar;
@@ -123,7 +123,7 @@ public class KonfigurasiWeb extends WebMvcConfigurerAdapter {
 }
 ```
 
-buat kelas dengan nama ```AnnotationWebInitializer.java``` dalam package ```com.hotmail.dimmaryanto.software.konfigurasi``` isinya seperti berikut:
+buat kelas dengan nama ```AnnotationWebInitializer.java``` dalam package ```spring.mvc.belajar.konfigurasi``` isinya seperti berikut:
 
 ```java
 package spring.mvc.belajar.konfigurasi;
@@ -197,3 +197,201 @@ public class HaloController {
 Setelah itu coba anda running dengan maven tomcat7. dan coba akses ```http://localhost:8080/belajar.spring-mvc.java-config/halo```
 
 Maka browser akan manghasilkan output yaitu ```Halo, nama saya dimas maryanto```
+
+## Spring Data JPA
+
+Setelah kita mengconfigurasi ```spring-webmvc``` sekarang saya konfigurasi ```spring-data-jpa``` untuk menggunakan fitur ORM dengan menggunakan database PostgreSQL, seperti biasa kita tambahkan dulu dependencynya seperti berikut:
+
+```xml
+<dependency>
+  <groupId>org.springframework.data</groupId>
+  <artifactId>spring-data-jpa</artifactId>
+  <version>1.10.2.RELEASE</version>
+</dependency>
+
+<!-- hibernate -->
+<dependency>
+  <groupId>org.hibernate</groupId>
+  <artifactId>hibernate-entitymanager</artifactId>
+  <version>5.1.0.Final</version>
+</dependency>
+<dependency>
+  <groupId>org.hibernate</groupId>
+  <artifactId>hibernate-validator</artifactId>
+  <version>5.1.3.Final</version>
+</dependency>
+
+<!-- database driver -->
+<dependency>
+  <groupId>org.postgresql</groupId>
+  <artifactId>postgresql</artifactId>
+  <version>9.4-1206-jdbc42</version>
+</dependency>
+<dependency>
+  <groupId>commons-dbcp</groupId>
+  <artifactId>commons-dbcp</artifactId>
+  <version>1.4</version>
+</dependency>
+```
+
+Setelah itu kita cukup tambahkan ```@EnableJpaRepository``` di kelas ```KonfigurasiWeb``` untuk mengaktifkan ```spring-data-jpa```, setelah itu kita harus buat configurasi untuk ```DataSource```, ```SessionFactory``` atau bisa pake ```EntityManagerFactory``` dan yang terakhir ```JpaTransactionManager``` seperti berikut:
+
+```java
+package spring.mvc.belajar;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
+import org.apache.commons.dbcp.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+@Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = "spring.mvc.belajar")
+// untuk meng-scan dimana keberadaan @Entity dan @Repository atau extends CrudRepository dan PagingAndSortingRepsitory
+@EnableJpaRepositories(basePackages = "spring.mvc.belajar")
+public class KonfigurasiWeb extends WebMvcConfigurerAdapter {
+
+  // konfigurasi jsp view resolver goes here
+
+	@Bean
+	public DataSource dataSource() {
+		BasicDataSource dbcp = new BasicDataSource();
+
+		dbcp.setDriverClassName("org.postgresql.Driver");
+		dbcp.setUrl("jdbc:postgresql://localhost:5432/belajar-spring-mvc");
+		dbcp.setUsername("postgres");
+		dbcp.setPassword("admin");
+
+		return dbcp;
+	}
+
+	@Bean
+	@Autowired
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds) {
+		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+		// untuk menentukan package nama yang akan discan
+		factory.setPackagesToScan("spring.mvc.belajar");
+		// setting datasource
+		factory.setDataSource(ds);
+
+		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		// set hibernate dialect = org.hibernate.dialect.PostgreSQL
+		vendorAdapter.setDatabase(Database.POSTGRESQL);
+		// set hibernate.hbm2dll.auto = true
+		vendorAdapter.setGenerateDdl(true);
+		// set hibernate.show-sql = true
+		vendorAdapter.setShowSql(true);
+
+		factory.setJpaVendorAdapter(vendorAdapter);
+		return factory;
+	}
+
+	@Bean
+	@Autowired
+	public JpaTransactionManager transactionManager(EntityManagerFactory session) {
+		JpaTransactionManager jpaTM = new JpaTransactionManager(session);
+		return jpaTM;
+	}
+
+}
+```
+
+Setelah itu kita coba membuat domain class yaitu ```Mahasiswa``` dalam package ```spring.mvc.belajar.domain``` seperti berikut:
+
+```java
+package spring.mvc.belajar.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Mahasiswa {
+
+	@Id
+	private String id;
+	private String nim;
+	private String nama;
+
+  // setter & getter goes here
+
+}
+```
+
+Setelah itu kita biasa membuat CRUDnya dengan menggunakan kelas yang di sediakan oleh spring-data-jpa yaitu CrudRepository. sekarang kita buat interface dengan nama ```MahasiswaDao``` kemudian kita buat kelas tersebut extends ```CrudRepository<Mahasiswa, String>``` seperti berikut:
+
+```java
+package spring.mvc.belajar.dao;
+
+import org.springframework.data.repository.CrudRepository;
+
+import spring.mvc.belajar.domain.Mahasiswa;
+
+public interface MahasiswaDao extends CrudRepository<Mahasiswa, String> {
+
+  // untuk mencari data mahasiswa berdasarkan nim
+	public Mahasiswa findByNim(String nim);
+
+}
+```
+
+Sekarang kita buat Integration Testnya buat dalam folder ```src/test/java``` dalam package ```coba``` dan buat unit test dengan nama kelas ```SpringContext.java``` seperti berikut:
+
+```java
+package coba;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+
+import junit.framework.TestCase;
+import spring.mvc.belajar.KonfigurasiWeb;
+import spring.mvc.belajar.dao.MahasiswaDao;
+import spring.mvc.belajar.domain.Mahasiswa;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = KonfigurasiWeb.class)
+@WebAppConfiguration
+public class SpringContext extends TestCase {
+
+	@Autowired
+	private MahasiswaDao dao;
+
+	@Test
+	public void contextLoaded() {
+
+	}
+
+	@Test
+	public void testCariSemuaMahasiswa() {
+		Mahasiswa mhs = dao.findByNim("10511148");
+		assertNotNull(mhs);
+	}
+}
+```
+
+Sekarang tinggal jalankan testnya dengan perintah seperti berikut:
+
+```bash
+mvn test
+```
+
+Jika berhasil berarti setup konfigurasi ```spring-webmvc``` dan ```spring-data-jpa``` udah berhasil dan jangan lupa sebelum menjalankan buat dulu databasenya seperti berikut:
+
+```sql
+CREATE DATABASE belajar-spring-mvc WITH OWNER postgres;
+```
