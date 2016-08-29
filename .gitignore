@@ -1,0 +1,8 @@
+# maven plugin
+target/
+
+# eclipse project
+.classpath
+.settings/
+.tern-setting
+.project
