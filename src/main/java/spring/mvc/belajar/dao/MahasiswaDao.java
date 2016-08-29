@@ -6,6 +6,6 @@ import spring.mvc.belajar.domain.Mahasiswa;
 
 public interface MahasiswaDao extends CrudRepository<Mahasiswa, String> {
 
-	public Mahasiswa findByNim(String nim);
+    public Mahasiswa findByNim(String nim);
 
 }
