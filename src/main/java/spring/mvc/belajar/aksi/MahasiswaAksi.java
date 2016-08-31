@@ -34,16 +34,23 @@ public class MahasiswaAksi {
 	public ModelAndView informasiMahasiswa(@PathVariable(value = "id") String nim,
 			@PathVariable(value = "action") String action) {
 		Mahasiswa mhs = dao.findByNim(nim);
-
+		ModelAndView mv = null;
 		if (action.equalsIgnoreCase("update")) {
-			ModelAndView mv = new ModelAndView("mahasiswa/update", "command", mhs);
+			mv = new ModelAndView("mahasiswa/update", "command", mhs);
 			return mv;
-		} else {
-			ModelAndView mv = new ModelAndView("mahasiswa/info");
+		} else if (action.equalsIgnoreCase("info")) {
+			mv = new ModelAndView("mahasiswa/info");
 			mv.addObject(mhs);
 			return mv;
 		}
+		return mv;
+	}
 
+	@GetMapping("/hapus-{id}")
+	public RedirectView hapusMahasiswa(@PathVariable(value = "id") String id) {
+		Mahasiswa mhs = dao.findByNim(id);
+		dao.delete(mhs);
+		return new RedirectView("daftar");
 	}
 
 	@GetMapping(value = "/reg")
