@@ -30,11 +30,20 @@ public class MahasiswaAksi {
 		return map;
 	}
 
-	@GetMapping(value = "/{id}")
-	public ModelAndView informasiMahasiswa(@PathVariable(value = "id") String nim) {
-		ModelAndView mv = new ModelAndView("/mahasiswa/info");
-		mv.addObject("mahasiswa", dao.findByNim(nim));
-		return mv;
+	@GetMapping(value = "/{action}-{id}")
+	public ModelAndView informasiMahasiswa(@PathVariable(value = "id") String nim,
+			@PathVariable(value = "action") String action) {
+		Mahasiswa mhs = dao.findByNim(nim);
+
+		if (action.equalsIgnoreCase("update")) {
+			ModelAndView mv = new ModelAndView("mahasiswa/update", "command", mhs);
+			return mv;
+		} else {
+			ModelAndView mv = new ModelAndView("mahasiswa/info");
+			mv.addObject(mhs);
+			return mv;
+		}
+
 	}
 
 	@GetMapping(value = "/reg")
@@ -42,8 +51,14 @@ public class MahasiswaAksi {
 		return new ModelAndView("mahasiswa/registrasi", "command", new Mahasiswa());
 	}
 
-	@PostMapping(value = "/createNew")
+	@PostMapping(value = "/registered")
 	public RedirectView registrasiMahasiswa(@ModelAttribute Mahasiswa mhs) {
+		dao.save(mhs);
+		return new RedirectView("daftar");
+	}
+
+	@PostMapping("/do-updated")
+	public RedirectView updateMahasiswa(@ModelAttribute Mahasiswa mhs) {
 		dao.save(mhs);
 		return new RedirectView("daftar");
 	}
