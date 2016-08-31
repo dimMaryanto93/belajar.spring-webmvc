@@ -1,12 +1,17 @@
 package spring.mvc.belajar.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 public class Mahasiswa {
 
 	@Id
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	@GeneratedValue(generator = "uuid")
 	private String id;
 	private String nim;
 	private String nama;
