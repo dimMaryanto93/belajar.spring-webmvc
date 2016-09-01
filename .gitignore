@@ -1,3 +1,6 @@
+# vim config
+*~
+
 # maven plugin
 target/
 
@@ -6,3 +9,7 @@ target/
 .settings/
 .tern-setting
 .project
+.springBeans
+
+# netbeans configuration
+nb-configuration.xml
