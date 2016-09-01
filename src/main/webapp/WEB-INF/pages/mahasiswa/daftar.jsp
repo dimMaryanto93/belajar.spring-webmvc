@@ -10,6 +10,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="stylesheet" type="text/css"
+	href='<spring:url value="/resources/materializecss/0.97.5/css/materialize.min.css"></spring:url>' />
+
+<script
+	src='<spring:url value="/resources/jquery/3.1.0/jquery.min.js"></spring:url>'></script>
+<script
+	src='<spring:url value="/resources/materializecss/0.97.5/js/materialize.min.js"></spring:url>'></script>
+
 <title>Daftar Mahasiswa</title>
 </head>
 <body class="container">

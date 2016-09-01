@@ -14,6 +14,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -23,50 +24,55 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableJpaRepositories(basePackages = "spring.mvc.belajar")
 public class KonfigurasiWeb extends WebMvcConfigurerAdapter {
 
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        super.configureViewResolvers(registry);
-        registry.jsp("/WEB-INF/pages/", ".jsp");
-    }
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+	}
 
-    @Bean
-    public DataSource dataSource() {
-        BasicDataSource dbcp = new BasicDataSource();
+	@Override
+	public void configureViewResolvers(ViewResolverRegistry registry) {
+		super.configureViewResolvers(registry);
+		registry.jsp("/WEB-INF/pages/", ".jsp");
+	}
 
-        dbcp.setDriverClassName("org.postgresql.Driver");
-        dbcp.setUrl("jdbc:postgresql://localhost:5432/belajar-spring-mvc");
-        dbcp.setUsername("postgres");
-        dbcp.setPassword("admin");
+	@Bean
+	public DataSource dataSource() {
+		BasicDataSource dbcp = new BasicDataSource();
 
-        return dbcp;
-    }
+		dbcp.setDriverClassName("org.postgresql.Driver");
+		dbcp.setUrl("jdbc:postgresql://localhost:5432/belajar-spring-mvc");
+		dbcp.setUsername("postgres");
+		dbcp.setPassword("admin");
 
-    @Bean
-    @Autowired
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds) {
-        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-        // untuk menentukan package nama yang akan discan
-        factory.setPackagesToScan("spring.mvc.belajar");
-        // setting datasource
-        factory.setDataSource(ds);
+		return dbcp;
+	}
 
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        // set hibernate dialect = org.hibernate.dialect.PostgreSQL
-        vendorAdapter.setDatabase(Database.POSTGRESQL);
-        // set hibernate.hbm2dll.auto = true
-        vendorAdapter.setGenerateDdl(true);
-        // set hibernate.show-sql = true
-        vendorAdapter.setShowSql(true);
+	@Bean
+	@Autowired
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds) {
+		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+		// untuk menentukan package nama yang akan discan
+		factory.setPackagesToScan("spring.mvc.belajar");
+		// setting datasource
+		factory.setDataSource(ds);
 
-        factory.setJpaVendorAdapter(vendorAdapter);
-        return factory;
-    }
+		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		// set hibernate dialect = org.hibernate.dialect.PostgreSQL
+		vendorAdapter.setDatabase(Database.POSTGRESQL);
+		// set hibernate.hbm2dll.auto = true
+		vendorAdapter.setGenerateDdl(true);
+		// set hibernate.show-sql = true
+		vendorAdapter.setShowSql(true);
 
-    @Bean
-    @Autowired
-    public JpaTransactionManager transactionManager(EntityManagerFactory session) {
-        JpaTransactionManager jpaTM = new JpaTransactionManager(session);
-        return jpaTM;
-    }
+		factory.setJpaVendorAdapter(vendorAdapter);
+		return factory;
+	}
+
+	@Bean
+	@Autowired
+	public JpaTransactionManager transactionManager(EntityManagerFactory session) {
+		JpaTransactionManager jpaTM = new JpaTransactionManager(session);
+		return jpaTM;
+	}
 
 }
