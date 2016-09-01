@@ -26,7 +26,8 @@ public class KonfigurasiWeb extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+		registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/");
+		//registry.addResourceHandler("/webjars").addResourceLocations("classpath:/resources/webjars/");
 	}
 
 	@Override
