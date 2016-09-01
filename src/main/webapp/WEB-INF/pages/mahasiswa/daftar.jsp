@@ -14,7 +14,7 @@
 
 <!--Import materialize.css-->
 <link type="text/css" rel="stylesheet"
-	href='<spring:url value="/resources/materialize/css/materialize.min.css"></spring:url>'
+	href='<spring:url value="/webjars/materializecss/0.97.5/css/materialize.min.css"></spring:url>'
 	media="screen,projection" />
 
 <!--Let browser know website is optimized for mobile-->
@@ -22,9 +22,9 @@
 
 <!--Import jQuery before materialize.js-->
 <script type="text/javascript"
-	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	src='<spring:url value="/webjars/jquery/3.1.0/jquery.min.js"></spring:url>'></script>
 <script type="text/javascript"
-	src='<spring:url value="/resources/materialize/js/materialize.min.js"></spring:url>'></script>
+	src='<spring:url value="/webjars/materializecss/0.97.5/js/materialize.min.js"></spring:url>'></script>
 
 
 
