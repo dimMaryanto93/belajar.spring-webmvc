@@ -17,17 +17,17 @@ import spring.mvc.belajar.domain.Mahasiswa;
 @WebAppConfiguration
 public class SpringContext extends TestCase {
 
-	@Autowired
-	private MahasiswaDao dao;
+    @Autowired
+    private MahasiswaDao dao;
 
-	@Test
-	public void contextLoaded() {
+    @Test
+    public void contextLoaded() {
 
-	}
+    }
 
-	@Test
-	public void testCariSemuaMahasiswa() {
-		Mahasiswa mhs = dao.findByNim("10511148");
-		assertNull(mhs);
-	}
+    @Test
+    public void testCariSemuaMahasiswa() {
+        Mahasiswa mhs = dao.findByNim("10511148");
+        assertNull(mhs);
+    }
 }

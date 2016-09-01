@@ -204,33 +204,33 @@ Setelah kita mengconfigurasi ```spring-webmvc``` sekarang saya konfigurasi ```sp
 
 ```xml
 <dependency>
-  <groupId>org.springframework.data</groupId>
-  <artifactId>spring-data-jpa</artifactId>
-  <version>1.10.2.RELEASE</version>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-jpa</artifactId>
+    <version>1.10.2.RELEASE</version>
 </dependency>
 
 <!-- hibernate -->
 <dependency>
-  <groupId>org.hibernate</groupId>
-  <artifactId>hibernate-entitymanager</artifactId>
-  <version>5.1.0.Final</version>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-entitymanager</artifactId>
+    <version>5.1.0.Final</version>
 </dependency>
 <dependency>
-  <groupId>org.hibernate</groupId>
-  <artifactId>hibernate-validator</artifactId>
-  <version>5.1.3.Final</version>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>5.1.3.Final</version>
 </dependency>
 
 <!-- database driver -->
 <dependency>
-  <groupId>org.postgresql</groupId>
-  <artifactId>postgresql</artifactId>
-  <version>9.4-1206-jdbc42</version>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>9.4-1206-jdbc42</version>
 </dependency>
 <dependency>
-  <groupId>commons-dbcp</groupId>
-  <artifactId>commons-dbcp</artifactId>
-  <version>1.4</version>
+    <groupId>commons-dbcp</groupId>
+    <artifactId>commons-dbcp</artifactId>
+    <version>1.4</version>
 </dependency>
 ```
 

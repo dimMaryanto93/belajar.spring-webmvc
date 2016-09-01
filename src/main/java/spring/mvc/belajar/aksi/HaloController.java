@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HaloController {
 
-	@RequestMapping("/halo")
-	public ModelMap halo() {
-		ModelMap map = new ModelMap();
-		map.addAttribute("message", "Halo, nama saya dimas maryanto");
-		return map;
-	}
+    @RequestMapping("/halo")
+    public ModelMap halo() {
+        ModelMap map = new ModelMap();
+        map.addAttribute("message", "Halo, nama saya dimas maryanto");
+        return map;
+    }
 }

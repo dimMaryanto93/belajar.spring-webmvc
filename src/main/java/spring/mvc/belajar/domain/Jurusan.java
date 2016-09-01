@@ -12,39 +12,39 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "m_jurusan")
 public class Jurusan {
 
-	@Id
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	@GeneratedValue(generator = "uuid")
-	private String id;
+    @Id
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid")
+    private String id;
 
-	@Column(name = "kode_jurusan", length = 2, unique = true, nullable = false)
-	private String kode;
+    @Column(name = "kode_jurusan", length = 2, unique = true, nullable = false)
+    private String kode;
 
-	@Column(name = "nama_jurusan", nullable = false)
-	private String nama;
+    @Column(name = "nama_jurusan", nullable = false)
+    private String nama;
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getKode() {
-		return kode;
-	}
+    public String getKode() {
+        return kode;
+    }
 
-	public void setKode(String kode) {
-		this.kode = kode;
-	}
+    public void setKode(String kode) {
+        this.kode = kode;
+    }
 
-	public String getNama() {
-		return nama;
-	}
+    public String getNama() {
+        return nama;
+    }
 
-	public void setNama(String nama) {
-		this.nama = nama;
-	}
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
 
 }

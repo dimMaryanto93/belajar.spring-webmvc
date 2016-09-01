@@ -20,54 +20,54 @@ import spring.mvc.belajar.domain.Mahasiswa;
 @RequestMapping("/mahasiswa")
 public class MahasiswaAksi {
 
-	@Autowired
-	private MahasiswaDao dao;
+    @Autowired
+    private MahasiswaDao dao;
 
-	@GetMapping(value = "/daftar")
-	public ModelMap daftarMahasiswa() {
-		ModelMap map = new ModelMap();
-		map.addAttribute("daftarMahasiswa", (List<Mahasiswa>) dao.findAll());
-		return map;
-	}
+    @GetMapping(value = "/daftar")
+    public ModelMap daftarMahasiswa() {
+        ModelMap map = new ModelMap();
+        map.addAttribute("daftarMahasiswa", (List<Mahasiswa>) dao.findAll());
+        return map;
+    }
 
-	@GetMapping(value = "/{action}-{id}")
-	public ModelAndView informasiMahasiswa(@PathVariable(value = "id") String nim,
-			@PathVariable(value = "action") String action) {
-		Mahasiswa mhs = dao.findByNim(nim);
-		ModelAndView mv = null;
-		if (action.equalsIgnoreCase("update")) {
-			mv = new ModelAndView("mahasiswa/update", "command", mhs);
-			return mv;
-		} else if (action.equalsIgnoreCase("info")) {
-			mv = new ModelAndView("mahasiswa/info");
-			mv.addObject(mhs);
-			return mv;
-		}
-		return mv;
-	}
+    @GetMapping(value = "/{action}-{id}")
+    public ModelAndView informasiMahasiswa(@PathVariable(value = "id") String nim,
+            @PathVariable(value = "action") String action) {
+        Mahasiswa mhs = dao.findByNim(nim);
+        ModelAndView mv = null;
+        if (action.equalsIgnoreCase("update")) {
+            mv = new ModelAndView("mahasiswa/update", "command", mhs);
+            return mv;
+        } else if (action.equalsIgnoreCase("info")) {
+            mv = new ModelAndView("mahasiswa/info");
+            mv.addObject(mhs);
+            return mv;
+        }
+        return mv;
+    }
 
-	@GetMapping("/hapus-{id}")
-	public RedirectView hapusMahasiswa(@PathVariable(value = "id") String id) {
-		Mahasiswa mhs = dao.findByNim(id);
-		dao.delete(mhs);
-		return new RedirectView("daftar");
-	}
+    @GetMapping("/hapus-{id}")
+    public RedirectView hapusMahasiswa(@PathVariable(value = "id") String id) {
+        Mahasiswa mhs = dao.findByNim(id);
+        dao.delete(mhs);
+        return new RedirectView("daftar");
+    }
 
-	@GetMapping(value = "/reg")
-	public ModelAndView formRegistrasi() {
-		return new ModelAndView("mahasiswa/registrasi", "command", new Mahasiswa());
-	}
+    @GetMapping(value = "/reg")
+    public ModelAndView formRegistrasi() {
+        return new ModelAndView("mahasiswa/registrasi", "command", new Mahasiswa());
+    }
 
-	@PostMapping(value = "/registered")
-	public RedirectView registrasiMahasiswa(@ModelAttribute Mahasiswa mhs) {
-		dao.save(mhs);
-		return new RedirectView("daftar");
-	}
+    @PostMapping(value = "/registered")
+    public RedirectView registrasiMahasiswa(@ModelAttribute Mahasiswa mhs) {
+        dao.save(mhs);
+        return new RedirectView("daftar");
+    }
 
-	@PostMapping("/do-updated")
-	public RedirectView updateMahasiswa(@ModelAttribute Mahasiswa mhs) {
-		dao.save(mhs);
-		return new RedirectView("daftar");
-	}
+    @PostMapping("/do-updated")
+    public RedirectView updateMahasiswa(@ModelAttribute Mahasiswa mhs) {
+        dao.save(mhs);
+        return new RedirectView("daftar");
+    }
 
 }
