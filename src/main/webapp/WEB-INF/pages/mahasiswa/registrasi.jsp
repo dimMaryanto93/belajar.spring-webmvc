@@ -15,16 +15,16 @@
                     <i class="material-icons prefix">account_circle</i>
                     <springf:input path="nim"/>
                     <springf:label path="nim">Nim</springf:label>
-                </div>
+                    </div>
                     <div class="input-field col s12 m8 l8">
                     <springf:input path="nama"/>
                     <springf:label path="nama">Nama Mahasiswa</springf:label>
+                    </div>
                 </div>
-            </div>
-            <div class="row right">
-                <input class="btn green" type="submit" value="Kirim" />
-                <a class="btn" href="<spring:url value="/mahasiswa/daftar"></spring:url>">Kembali</a>
-            </div>
+                <div class="row right">
+                    <input class="btn green" type="submit" value="Kirim" />
+                    <a class="btn" href="<spring:url value="/mahasiswa/daftar"></spring:url>">Kembali</a>
+                </div>
         </springf:form>
 
     </body>
