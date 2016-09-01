@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" isELIgnored="false"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="springf" %>
-
-<html >
-
+<html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Informasi Data Mahasiswa</title>
         <%@include file="../layout/header.jsp" %>
     </head>
@@ -27,6 +21,9 @@
                 <div class="input-field col s12 m8 l8">
                     <springf:input path="nama" readonly="true"/>
                     <springf:label path="nama">Nama Mahasiswa</springf:label>
+                </div>
+                <div class="row right">
+                    <a class="btn" href="<spring:url value="/mahasiswa/daftar"></spring:url>">Kembali</a>
                 </div>
             </div>
         </springf:form>
