@@ -447,3 +447,96 @@ berikut cara memanggil file `CSS` dan `JS` dalam file `JSP`:
 <script type="text/javascript" src="${jquery}"></script>
 <script type="text/javascript" src="${materializejs}"></script>
 ```
+
+## Menampilkan data dari Tabel dalam database.
+
+Buat file `jsp` dalam folder `WEB-INF/pages/mahasiswa` dengan nama file `daftar.jsp` kemudian berikut isinya:
+
+```jsp
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" isELIgnored="false"%>
+<html>
+    <head>
+        <title>Daftar Mahasiswa</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+        <%@taglib uri="http://www.springframework.org/tags/form" prefix="springf" %>
+
+        <spring:url value="/webjars/materializecss/0.97.5/css/materialize.min.css" var="materializecss"/>
+        <spring:url value="/webjars/jquery/3.1.0/jquery.min.js" var="jquery"/>
+        <spring:url value="/webjars/materializecss/0.97.5/js/materialize.min.js" var="materializejs"/>
+
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <link type="text/css" rel="stylesheet" href="${materializecss}" media="screen,projection" />
+
+        <script type="text/javascript" src="${jquery}"></script>
+        <script type="text/javascript" src="${materializejs}"></script>
+    </head>
+    <body class="container">
+
+        <h2>Daftar mahasiswa</h2>
+
+        <a href="<spring:url value="/mahasiswa/reg"/>"
+           class="btn waves-effect waves-light"><i class="material-icons">add</i>Tambah</a>
+
+        <table class="table table-bordered table-condensed table-responsive">
+            <tr>
+                <th class="center">NIM</th>
+                <th class="center">Nama</th>
+                <th class="center">Aksi</th>
+            </tr>
+            <c:forEach items="${ daftarMahasiswa }" var="mhs">
+                <tr>
+                    <td><c:out value="${ mhs.nim }" /></td>
+                    <td><c:out value="${ mhs.nama }" /></td>
+                    <td class="right">
+                      <a class="btn waves-effect waves-light blue"
+                        href='<spring:url value="/mahasiswa/info-${ mhs.nim }"/>'>
+                          <i class="material-icons">info</i>
+                      </a>
+                      &nbsp;
+                      <a class="btn waves-effect waves-light yellow"
+                        href='<spring:url value="/mahasiswa/update-${ mhs.nim }"/>'>
+                          <i class="material-icons">mode_edit</i>
+                      </a>
+                      &nbsp;
+                      <a class="btn waves-effect waves-light red"
+                        href='<spring:url value="/mahasiswa/hapus-${ mhs.nim }"/>'>
+                          <i class="material-icons">delete_forever</i>
+                      </a>
+                  </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </body>
+</html>
+```
+
+Setelah itu kita buat controllernya, buat kelas dalam package `spring.mvc.belajar.aksi` dengan nama `MahasiswaAksi.java` seperti berikut isinya:
+
+```java
+package spring.mvc.belajar.aksi;
+
+// inport goes here
+
+@Controller
+@RequestMapping("/mahasiswa")
+public class MahasiswaAksi {
+
+    @Autowired
+    private MahasiswaDao dao;
+
+    @GetMapping(value = "/daftar")
+    public ModelMap daftarMahasiswa() {
+        ModelMap map = new ModelMap();
+        map.addAttribute("daftarMahasiswa", (List<Mahasiswa>) dao.findAll());
+        return map;
+    }
+
+}
+```
+
+Dengan membuat controller tersebut dan mendefinisikan `@RequestMapping("/mahasiswa")` jadi secara tidak langsung akan dimapping ke directory `WEB-INF/pages/mahasiswa` dan pada mehtod `daftarMahasiswa()` dengan menggunakan `@GetMapping("/daftar")` maka kita akan mendapatkan fasilitas method `get` sama seperti disevlet itu method `doGet(Request, Response)` dan otomatis di render ke file `jsp` yaitu `WEB-INF/pages/mahasiswa/daftar.jsp`. Untuk `ModelMap` kita mendaftarkan atribute ke `daftar.jsp` jadi nanti di jspnya kita tingal panggil nilai tersebut. 
