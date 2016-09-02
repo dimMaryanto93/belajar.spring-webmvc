@@ -27,9 +27,13 @@
                     <tr>
                         <td>${jurusan.kode}</td>
                         <td>${jurusan.nama}</td>
-                        <td>
+                        <td class="right">
                             <a href="<spring:url value="/jurusan/ubah-${jurusan.id}"/>">
                                 <i class="material-icons">mode_edit</i>
+                            </a>
+                            &nbsp;
+                            <a href="<spring:url value="/jurusan/hapus-${jurusan.id}"/>">
+                                <i class="material-icons">delete_forever</i>
                             </a>
                         </td>
                     </tr>

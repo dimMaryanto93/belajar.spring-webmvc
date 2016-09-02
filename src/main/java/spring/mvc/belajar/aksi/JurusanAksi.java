@@ -54,4 +54,10 @@ public class JurusanAksi {
         return new RedirectView("daftar");
     }
 
+    @RequestMapping("/hapus-{id}")
+    public RedirectView prosesHapusJurusan(@PathVariable("id") String id) {
+        dao.delete(id);
+        return new RedirectView("daftar");
+    }
+
 }
