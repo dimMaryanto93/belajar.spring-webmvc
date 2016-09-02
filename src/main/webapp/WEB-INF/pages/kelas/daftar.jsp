@@ -8,6 +8,9 @@
     </head>
     <body class="container">
         <h3>Daftar Kelas</h3>
+        <a class="btn waves-effect waves-light" href="<spring:url value="/kelas/tambah"/>">
+            Tambah
+        </a>
 
         <table border="1">
             <thead>
