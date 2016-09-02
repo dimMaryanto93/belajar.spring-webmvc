@@ -23,18 +23,24 @@
                 <tr>
                     <td><c:out value="${ mhs.nim }" /></td>
                     <td><c:out value="${ mhs.nama }" /></td>
-                    <td class="right"><a class="btn waves-effect waves-light blue"
-                                         href='<spring:url value="/mahasiswa/info-${ mhs.nim }"/>'> <i
-                                class="material-icons">info</i></a> &nbsp; <a
-                            class="btn waves-effect waves-light yellow"
-                            href='<spring:url value="/mahasiswa/update-${ mhs.nim }"/>'> <i
-                                class="material-icons">mode_edit</i></a> &nbsp; <a
-                            class="btn waves-effect waves-light red"
-                            href='<spring:url value="/mahasiswa/hapus-${ mhs.nim }"/>'> <i
-                                class="material-icons">delete_forever</i></a></td>
+                    <td class="right">
+                        <a class="btn waves-effect waves-light blue"
+                           href='<spring:url value="/mahasiswa/info-${ mhs.nim }"/>'> 
+                            <i class="material-icons">info</i>
+                        </a> 
+                        &nbsp; 
+                        <a class="btn waves-effect waves-light yellow"
+                           href='<spring:url value="/mahasiswa/update-${ mhs.nim }"/>'> 
+                            <i class="material-icons">mode_edit</i>
+                        </a> 
+                        &nbsp; 
+                        <a class="btn waves-effect waves-light red"
+                           href='<spring:url value="/mahasiswa/hapus-${ mhs.nim }"/>'> 
+                            <i class="material-icons">delete_forever</i>
+                        </a>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
-
     </body>
 </html>
