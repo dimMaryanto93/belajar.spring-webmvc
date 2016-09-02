@@ -57,4 +57,10 @@ public class KelasAksi {
         dao.save(kelas);
         return new RedirectView("daftar");
     }
+
+    @GetMapping("/hapus-{id}")
+    public RedirectView prosesHapusKelas(@PathVariable("id") String kode) {
+        dao.delete(kode);
+        return new RedirectView("daftar");
+    }
 }

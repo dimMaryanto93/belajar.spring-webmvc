@@ -31,6 +31,8 @@
                         <td>${kelas.jurusan.nama}</td>
                         <td>
                             <a href="<spring:url value="/kelas/ubah-${kelas.id}"/>">Ubah</a>
+                            &nbsp;
+                            <a href="<spring:url value="/kelas/hapus-${kelas.id}"/>">Hapus</a>
                         </td>
                     </tr>
                 </c:forEach>
