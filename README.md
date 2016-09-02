@@ -395,3 +395,55 @@ Jika berhasil berarti setup konfigurasi ```spring-webmvc``` dan ```spring-data-j
 ```sql
 CREATE DATABASE belajar-spring-mvc WITH OWNER postgres;
 ```
+
+## Webjars
+
+Webjars ini fungsinya sama seperti package manager di NodeJs (NPM), untuk menambahkan libary css, js, font dan lain-lain contohnya seperti bootstrap, jquery, materializecss. jadi di belajar spring-mvc ini saya mau menggunakan materializecss dan juga jquery sebagai front endnya, caranya adalah tinggal tambahkan dependency berikut ke `pom.xml`
+
+```xml
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>material-design-icons</artifactId>
+    <version>2.2.0</version>
+</dependency>
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>jquery</artifactId>
+    <version>3.1.0</version>
+</dependency>
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>materializecss</artifactId>
+    <version>0.97.5</version>
+</dependency>
+```
+
+Setelah itu kita harus daftarkan resoucesnya ke configurasi spring-mvc, supaya diincludekan atau di kenal ketika di panggil dari JSP. seperti berikut tambahkan di kelas `KonfigurasiWeb.java`:
+
+```java
+@Override
+public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    // mendaftarkan resources yang ada dalam jar
+    registry.addResourceHandler("/webjars/**")
+            .addResourceLocations("classpath:/META-INF/resources/webjars/");
+}
+```
+
+berikut cara memanggil file `CSS` dan `JS` dalam file `JSP`:
+
+```jsp
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="springf" %>
+
+<!-- untuk mengetahui lokasi file css dan jsnya anda bisa lihat di dalam jar setiap librarynya -->
+<spring:url value="/webjars/materializecss/0.97.5/css/materialize.min.css" var="materializecss"/>
+<spring:url value="/webjars/jquery/3.1.0/jquery.min.js" var="jquery"/>
+<spring:url value="/webjars/materializecss/0.97.5/js/materialize.min.js" var="materializejs"/>
+
+<!-- include file css dalam jsp -->
+<link type="text/css" rel="stylesheet" href="${materializecss}" media="screen,projection" />
+
+<!-- include file javascript dalam jsp -->
+<script type="text/javascript" src="${jquery}"></script>
+<script type="text/javascript" src="${materializejs}"></script>
+```
