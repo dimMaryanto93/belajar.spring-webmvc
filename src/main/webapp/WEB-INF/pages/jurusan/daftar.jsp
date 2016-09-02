@@ -9,11 +9,17 @@
     </head>
     <body class="container">
         <h3>Daftar Jurusan</h3>
+
+        &nbsp;
+        <a href="<spring:url value="/jurusan/tambah"/>" class="btn waves-effect waves-light">
+            Tambah
+        </a>
         <table border="0">
             <thead>
                 <tr>
                     <th>Kode</th>
                     <th>Nama</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +27,11 @@
                     <tr>
                         <td>${jurusan.kode}</td>
                         <td>${jurusan.nama}</td>
+                        <td>
+                            <a href="<spring:url value="/jurusan/ubah-${jurusan.id}"/>">
+                                <i class="material-icons">mode_edit</i>
+                            </a>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
