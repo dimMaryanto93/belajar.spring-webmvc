@@ -6,8 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import spring.mvc.belajar.dao.JurusanDao;
 import spring.mvc.belajar.dao.KelasDao;
@@ -38,6 +40,20 @@ public class KelasAksi {
 
     @PostMapping("/tambahBaru")
     public RedirectView prosesTambahKelas(@ModelAttribute @Valid Kelas kelas) {
+        dao.save(kelas);
+        return new RedirectView("daftar");
+    }
+
+    @GetMapping("/ubah-{id}")
+    public ModelAndView updateKelas(@PathVariable("id") String id) {
+        ModelAndView map = new ModelAndView("/kelas/ubah");
+        map.addObject("kelas", dao.findOne(id));
+        map.addObject("daftarJurusan", jurusanDao.findAll());
+        return map;
+    }
+
+    @PostMapping("/perbaharui")
+    public RedirectView prosesPerbaharuiKelas(@ModelAttribute @Valid Kelas kelas) {
         dao.save(kelas);
         return new RedirectView("daftar");
     }

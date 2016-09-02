@@ -19,6 +19,7 @@
                     <th>Nama Nama</th>
                     <th>Kode Jurusan</th>
                     <th>Nama Jurusan</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,6 +29,9 @@
                         <td>${kelas.nama}</td>
                         <td>${kelas.jurusan.kode}</td>
                         <td>${kelas.jurusan.nama}</td>
+                        <td>
+                            <a href="<spring:url value="/kelas/ubah-${kelas.id}"/>">Ubah</a>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
