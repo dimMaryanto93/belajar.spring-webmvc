@@ -11,7 +11,7 @@
 
         <table border="1">
             <thead>
-                <tr>
+                <tr class="center">
                     <th>Kode Kelas</th>
                     <th>Nama Nama</th>
                     <th>Kode Jurusan</th>
