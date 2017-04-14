@@ -4,6 +4,12 @@
 # maven plugin
 target/
 
+# idea project
+.idea/
+*.ipr
+*.iws
+*.iml
+
 # eclipse project
 .classpath
 .settings/
